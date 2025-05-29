@@ -14,12 +14,14 @@ exports.getAllNews = async (req, res) => {
 exports.createNews = async (req, res) => {
   try {
     const { title, description } = req.body;
-    const image = req.file ? `/uploads/${req.file.filename}` : '';
     
+    // Cloudinary سے تصویر کا یو آر ایل (اگر فائل موجود ہو)
+    const imageUrl = req.file ? req.file.path : '';
+
     const news = new News({
       title,
       description,
-      image
+      image: imageUrl // یہاں Cloudinary URL آئے گی
     });
 
     const savedNews = await news.save();
